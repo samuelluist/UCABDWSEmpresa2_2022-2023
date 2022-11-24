@@ -10,6 +10,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/tablas.styles.css" asp-append-version="true" />
@@ -35,25 +37,28 @@
                     <div class="sidebar-brand-icon ">
                         <i class="fab fa-servicestack"></i>                    
                     </div>
-                <div class="sidebar-brand-text mx-2">ServiceDesk<sup>UCAB</sup></div>
+                    <div class="sidebar-brand-text mx-2">ServiceDesk
+                        <sup>UCAB</sup>
+                    </div>
                 </a>
 
                 <!-- Divider -->
-                <hr class="sidebar-divider my-0">
+               <hr class="sidebar-divider my-0"/>
 
                 <!-- Nav Item - Dashboard -->
                 <li class="nav-item active">
                     <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Dashboard</span></a>
+                        <span>Dashboard</span>
+                    </a>
                 </li>
 
-            <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Usuario" asp-action="Usuarios">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Usuario</span>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Usuario" asp-action="Usuarios">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Usuario</span>
+                    </a>
+                </li>
 
                
                  <li class="nav-item">
@@ -63,26 +68,28 @@
                     </a>
                 </li>
 
-                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePlantilla" aria-expanded="true" aria-controls="collapsePlantilla">
-                    <i class="fas fa-fw fa-edit"></i>
-                    <span>Plantillas de notificación</span>
-                    </a>
-            <li class="nav-item">
-
-                <a class="nav-link" asp-area="" asp-controller="TipoTicket" asp-action="VistaTipo">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Gestionar Tipo Ticket</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Votos" asp-action="VistaTicket">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Gestionar Votos</span>
-                </a>
-            </li>
                 
-                    <div id="collapsePlantilla" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <li class="nav-item">
+
+                    <a class="nav-link" asp-area="" asp-controller="TipoTicket" asp-action="VistaTipo">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Gestionar Tipo Ticket</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Votos" asp-action="VistaTicket">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Gestionar Votos</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePlantilla" aria-expanded="true" aria-controls="collapseEstado">
+                        <i class="fas fa-fw fa-bell"></i>
+                        <span>Plantilla notificaciones</span>
+                    </a>
+                <div id="collapsePlantilla" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Gestion de plantillas:</h6>
                             <a class="collapse-item" asp-area="" asp-controller="PlantillaNotificacion" asp-action="PlantillasNotificacion">Todas las plantillas</a>
@@ -90,6 +97,16 @@
                         </div>
                     </div>
                 </li>
+
+                @*<li>
+            <div id="collapsePlantilla" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Gestion de plantillas:</h6>
+            <a class="collapse-item" asp-area="" asp-controller="PlantillaNotificacion" asp-action="PlantillasNotificacion">Todas las plantillas</a>
+            <a class="collapse-item" asp-area="" asp-controller="PlantillaNotificacion" asp-action="PlantillaNueva">Crear plantilla</a>
+            </div>
+            </div>
+            </li>*@
 
                  <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEstado" aria-expanded="true" aria-controls="collapseEstado">
@@ -205,7 +222,7 @@
             </div>
         </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @*script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
@@ -216,6 +233,24 @@
 
     <!-- Core plugin JavaScript-->
     <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="~/js/sb-admin-2.min.js"></script>*@<
+
+
+
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Custom scripts for all pages-->
     <script src="~/js/sb-admin-2.min.js"></script>

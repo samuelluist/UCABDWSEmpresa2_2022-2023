@@ -12,13 +12,8 @@ using ServicesDeskUCABWS.Data;
 namespace ServicesDeskUCABWS.Migrations
 {
     [DbContext(typeof(DataContext))]
-<<<<<<<< HEAD:src/backend/ServicesDeskUCABWS/Migrations/20221124050017_InitialMigration.Designer.cs
-    [Migration("20221124050017_InitialMigration")]
-    partial class InitialMigration
-========
-    [Migration("20221124024020_modulo-develop")]
-    partial class modulodevelop
->>>>>>>> 9b9bb28cd6bc8111453bbb5e9ed6e8715bf30829:src/backend/ServicesDeskUCABWS/Migrations/20221124024020_modulo-develop.Designer.cs
+    [Migration("20221124121848_MigracionInicial")]
+    partial class MigracionInicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

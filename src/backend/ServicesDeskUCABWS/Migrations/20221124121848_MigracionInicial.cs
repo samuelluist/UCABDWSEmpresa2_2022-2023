@@ -5,11 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ServicesDeskUCABWS.Migrations
 {
-<<<<<<<< HEAD:src/backend/ServicesDeskUCABWS/Migrations/20221124050017_InitialMigration.cs
-    public partial class InitialMigration : Migration
-========
-    public partial class modulodevelop : Migration
->>>>>>>> 9b9bb28cd6bc8111453bbb5e9ed6e8715bf30829:src/backend/ServicesDeskUCABWS/Migrations/20221124024020_modulo-develop.cs
+    public partial class MigracionInicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

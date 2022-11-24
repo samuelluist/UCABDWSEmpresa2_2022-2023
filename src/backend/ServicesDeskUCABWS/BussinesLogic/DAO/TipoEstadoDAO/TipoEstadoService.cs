@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using ServicesDeskUCABWS.BussinesLogic.DTO.Plantilla;
 using ServicesDeskUCABWS.BussinesLogic.DTO.TipoEstado;
 using ServicesDeskUCABWS.BussinesLogic.Exceptions;
 using ServicesDeskUCABWS.Data;
@@ -79,7 +80,7 @@ namespace ServicesDeskUCABWS.BussinesLogic.DAO.TipoEstadoDAO
         }
 
         //POST: Servicio para crear tipo estado
-        public Boolean RegistroTipoEstado(TipoEstadoCreateDTO tipoEstado)
+        public TipoEstadoCreateDTO RegistroTipoEstado(TipoEstadoCreateDTO tipoEstado)
         {
             try
             {
@@ -94,7 +95,7 @@ namespace ServicesDeskUCABWS.BussinesLogic.DAO.TipoEstadoDAO
                 _tipoEstadoContext.Tipos_Estados.Add(tipoEstadoEntity);
 
                 _tipoEstadoContext.DbContext.SaveChanges();
-                return true;
+                return tipoEstado;
             }
             catch (ExceptionsControl ex)
             {
@@ -111,7 +112,7 @@ namespace ServicesDeskUCABWS.BussinesLogic.DAO.TipoEstadoDAO
         }
 
         //PUT: Servicio para actualizar tipo estado
-        public Boolean ActualizarTipoEstado(TipoEstadoCreateDTO tipoEstadoAct, Guid id)
+        public TipoEstadoDTO ActualizarTipoEstado(TipoEstadoUpdateDTO tipoEstadoAct, Guid id)
         {
             try
             {
@@ -119,23 +120,25 @@ namespace ServicesDeskUCABWS.BussinesLogic.DAO.TipoEstadoDAO
                 var tipoEstadoEntity = _tipoEstadoContext.Tipos_Estados.Include(et => et.etiquetaTipoEstado).ThenInclude(e => e.etiqueta).Where(et => et.Id == id).Single();
                 tipoEstadoEntity.etiquetaTipoEstado.Clear();
 
+                //Actualizar la relación de tipo estado con etiquetas
                 if ( tipoEstadoAct.etiqueta.Count() > 0 )
                     tipoEstadoEntity.etiquetaTipoEstado = AñadirRelacionEtiquetaTipoEstado( id, tipoEstadoAct.etiqueta);
 
-                tipoEstadoEntity.nombre = tipoEstadoAct.nombre;
-                tipoEstadoEntity.descripcion = tipoEstadoAct.descripcion;
+                //Si tiene permiso, quiere decir que puede modificar los atributos nombre y descripción del tipo estado
+                if (tipoEstadoEntity.permiso)
+                {
+                    tipoEstadoEntity.nombre = tipoEstadoAct.nombre;
+                    tipoEstadoEntity.descripcion = tipoEstadoAct.descripcion;
+                }
+                
                 _tipoEstadoContext.Tipos_Estados.Update(tipoEstadoEntity);
                 _tipoEstadoContext.DbContext.SaveChanges();
-                return true;
+                return _mapper.Map<TipoEstadoDTO>(tipoEstadoEntity);
             }
             catch (ExceptionsControl ex)
             {
                 throw new ExceptionsControl("Se esta intentando asociar a una etiqueta que no existe", ex);
             }
-            //catch (InvalidOperationException ex)
-            //{
-            //    throw new ExceptionsControl("Se esta intentando asociar a la misma etiqueta más de una vez", ex);
-            //}
             catch (DbUpdateException ex)
             {
                 throw new ExceptionsControl("Alguno de los campos requeridos del tipo de estado está vacio", ex);
@@ -148,21 +151,33 @@ namespace ServicesDeskUCABWS.BussinesLogic.DAO.TipoEstadoDAO
         }
 
         //DELETE: Servicio para eliminar el tipo estado
-        public Boolean EliminarTipoEstado(Guid id)
+        public TipoEstadoCreateDTO EliminarTipoEstado(Guid id)
         {
             try
             {
-              
+                var tipoEstado = _tipoEstadoContext.Tipos_Estados.Include(t => t.etiquetaTipoEstado).Where(t => t.Id == id).Single();
+                //Si no tiene permiso, quiere decir que no podrá eliminar el tipo estado
+                if (!tipoEstado.permiso)
+                {
+                    throw new ExceptionsControl("No se puede eliminar este tipo de estado por la integridad del sistema");
+                }
+
+                //Verifica si hay una plantilla notificación asociada al tipo estado. De ser así, eliminar la relación en plantilla.
                 var plantilla = _tipoEstadoContext.PlantillasNotificaciones.Where(p => p.TipoEstadoId == id).FirstOrDefault();
                 if (plantilla != null)
                 {
                     plantilla.TipoEstadoId = null;
                     _tipoEstadoContext.PlantillasNotificaciones.Update(plantilla);
                 }
-                var tipoEstado = _tipoEstadoContext.Tipos_Estados.Include(t => t.etiquetaTipoEstado).Where(t => t.Id == id).Single();
+
+                
                 _tipoEstadoContext.Tipos_Estados.Remove(tipoEstado);
                 _tipoEstadoContext.DbContext.SaveChanges();
-                return true;
+                return _mapper.Map<TipoEstadoCreateDTO>(tipoEstado);
+            }
+            catch (ExceptionsControl ex)
+            {
+                throw new ExceptionsControl("No se puede eliminar este tipo de estado por la integridad del sistema", ex);
             }
             catch (DbUpdateException ex)
             {

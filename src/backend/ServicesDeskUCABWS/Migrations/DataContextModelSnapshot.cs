@@ -481,6 +481,9 @@ namespace ServicesDeskUCABWS.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("permiso")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("Tipos_Estados");

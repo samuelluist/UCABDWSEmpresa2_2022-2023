@@ -23,7 +23,7 @@ namespace ServicesDeskUCABWS.Entities
         public string descripcion { get; set; }
 
         public HashSet<EtiquetaTipoEstado> etiquetaTipoEstado { get; set; }
-
+        public Boolean permiso { get; set; }
 
         public Tipo_Estado(string nombre, string descripcion)
         {
@@ -33,6 +33,5 @@ namespace ServicesDeskUCABWS.Entities
 
         }
 
-    } 
+    }
 }
-

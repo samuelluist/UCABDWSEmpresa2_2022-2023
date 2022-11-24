@@ -34,8 +34,7 @@
                             <label class="form-label fs-6 fw-bold mb-1">Mensaje</label>
                             <textarea id="mensajePlantilla" required class="form-control form-control-sm" rows="3" asp-for="Plantilla.Descripcion"></textarea>
                             <div class="mb-0 fs-6">
-                                @if (Model.TipoEstados != null)
-                                {
+                                @if(Model.TipoEstados != null){
                                     @foreach (var estado in Model.TipoEstados)
                                     {
                                         if (@estado.Etiqueta.Count() == 0)
@@ -61,20 +60,26 @@
                         </div>
                     </div>
                     <div class="col-4">
-                        @if (Model.TipoEstados != null)
-                        {
-                            <div class="mb-1">
+                        <div class="mb-1">
+                            @if (Model.TipoEstados != null)
+                            {
                                 <label class="form-label fs-6 fw-bold mb-1">Asociar a tipo de estado:</label>
                                 <select id="TipoEstadoSelect" asp-for="Plantilla.TipoEstadoId" onchange="mostrarEtiquetas();" class="form-select form-select-sm" aria-label=".form-select-sm example">
                                     <option value="@null">- Selecciona un estado -</option>
-
+                                
                                     @foreach (var estado in Model.TipoEstados)
                                     {
                                         <option value="@estado.Id">@estado.Nombre</option>
                                     }
-
+     
                                 </select>
-                            </div>
+                            }else{
+                                <p class="fst-italic text-danger mb-1">No existen estados asociados en el sistema</p>
+                                <a asp-action="EstadoNuevo" asp-controller="EstadoTicket" asp-route-id="@null" class="btn btn-primary btn-sm">Agregar tipo de estado</a>
+                            }
+                        </div>
+                        @if (Model.TipoEstados != null)
+                        {
                             @foreach (var estado in Model.TipoEstados)
                             {
                                 <div style="display: none" class="p-1 mb-2 descripcion-estados border-bottom border-1 mt-1" id="descEstado-@Regex.Replace(estado.Nombre, @"\s+", String.Empty)">

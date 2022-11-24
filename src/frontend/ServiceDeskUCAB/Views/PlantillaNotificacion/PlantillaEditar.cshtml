@@ -32,8 +32,7 @@
                             <label class="form-label fs-6 fw-bold mb-1">Mensaje</label>
                             <textarea id="mensajePlantilla" required class="form-control form-control-sm" rows="5" asp-for="Plantilla.Descripcion"></textarea>
                             <p class="mb-0 fs-6">
-                                @if (Model.TipoEstados != null)
-                                {
+                                @if(Model.TipoEstados != null){
                                     @foreach (var estado in Model.TipoEstados)
                                     {
                                         @if (Model.Plantilla.TipoEstado != null && Model.Plantilla.TipoEstado.Id == estado.Id)
@@ -77,7 +76,6 @@
                                             }
                                         }
                                     }
-
                                 }
                             </p>
                         </div>
@@ -103,34 +101,38 @@
                             <hr />
                         }
                         <div class="mb-2">
-                            <label class="form-label fs-6 fw-bold mb-1">Asignar nuevo tipo de estado:</label>
-                            <select name="plantilla.TipoEstadoId" id="TipoEstadoSelect" asp-for="Plantilla.TipoEstado.Id" onchange="mostrarEtiquetas();" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                <option value="@null">- Sin estado asociado -</option>
-                                @if (Model.Plantilla.TipoEstado != null)
-                                {
-                                    @foreach (var estado in Model.TipoEstados)
+                            @if (Model.TipoEstados != null){
+                                <label class="form-label fs-6 fw-bold mb-1">Asignar nuevo tipo de estado:</label>
+                                <select name="plantilla.TipoEstadoId" id="TipoEstadoSelect" asp-for="Plantilla.TipoEstado.Id" onchange="mostrarEtiquetas();" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                    <option value="@null">- Sin estado asociado -</option>
+                                    @if (Model.Plantilla.TipoEstado != null)
                                     {
-                                        if (estado.Id == Model.Plantilla.TipoEstado.Id)
+                                        @foreach (var estado in Model.TipoEstados)
                                         {
-                                            <option value="@estado.Id" selected>@estado.Nombre</option>
+                                            if (estado.Id == Model.Plantilla.TipoEstado.Id)
+                                            {
+                                                <option value="@estado.Id" selected>@estado.Nombre</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@estado.Id">@estado.Nombre</option>
+                                            }
                                         }
-                                        else
+                                    }
+                                    else
+                                    {
+                                        @foreach (var estado in Model.TipoEstados)
                                         {
                                             <option value="@estado.Id">@estado.Nombre</option>
                                         }
                                     }
-                                }
-                                else
-                                {
-                                    @foreach (var estado in Model.TipoEstados)
-                                    {
-                                        <option value="@estado.Id">@estado.Nombre</option>
-                                    }
-                                }
-                            </select>
+                                </select>
+                            }else{
+                                <p class="fst-italic text-danger mb-1">No existen estados asociados en el sistema</p>
+                                <a asp-action="EstadoNuevo" asp-controller="EstadoTicket" asp-route-id="@null" class="btn btn-primary btn-sm">Agregar tipo de estado</a>
+                            }
                         </div>
-                        @if (Model.TipoEstados != null)
-                        {
+                        @if(Model.TipoEstados != null){
                             @foreach (var estado in Model.TipoEstados)
                             {
                                 if (Model.Plantilla.TipoEstado != null && estado.Id != Model.Plantilla.TipoEstado.Id)

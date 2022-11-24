@@ -51,12 +51,6 @@ namespace ServicesDeskUCABWS
             services.AddTransient<IUserRol, UserRolDAO>();
             //services.AddScoped<AsignacionRolServices>();
             services.AddAutoMapper(typeof(Startup).Assembly);
-            services.AddControllers().AddJsonOptions(x =>
-            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-
-            services.AddControllers().AddJsonOptions(x=>
-            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-
             services.AddTransient<IDepartamentoDAO,DepartamentoDAO>();
 			services.AddScoped<IGrupoDAO, GrupoDAO>();
 			services.AddAutoMapper(typeof(Startup).Assembly);
